@@ -4,27 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:animateLayoutChanges="true">
 
-<!--    try this-->
-<!--    https://github.com/mancj/MaterialSearchBar-->
+    <!--    try this-->
+    <!--    https://github.com/mancj/MaterialSearchBar-->
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/searchViewLL"
-        android:background="@android:color/darker_gray">
+        android:visibility="gone" />
 
-    <SearchView
-        android:layout_margin="10dp"
+    <LinearLayout
+        android:id="@+id/searchViewLL"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/searchview_rounded"
-        android:id="@+id/search_view"
-        />
+        android:layout_height="0dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loading_indicator">
+
+        <SearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:background="@drawable/searchview_rounded" />
 
     </LinearLayout>
 
@@ -35,6 +48,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchViewLL"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchViewLL" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -93,11 +94,15 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder> im
 
         private TextView textView;
         private TextView forecastTV;
+        private ImageView imageDesc;
+        private TextView textDesc;
 
         CityHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.text_card_view);
             forecastTV = itemView.findViewById(R.id.forecast_card_view);
+//            imageDesc = itemView.findViewById(R.id.desc_img_card);
+//            textDesc = itemView.findViewById(R.id.desc_text_card);
             itemView.setTag(this);
             itemView.setOnClickListener(onItemClickListener);
         }

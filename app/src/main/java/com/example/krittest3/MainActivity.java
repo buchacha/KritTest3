@@ -14,7 +14,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.krittest3.adapter.CityAdapter;
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private CityAdapter mAdapter;
     private ArrayList<City> mCitiesArrayList;
     private SearchView mSearchView;
+    private ProgressBar mProgressBar;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -59,9 +64,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             int position = viewHolder.getAdapterPosition();
             City city = mCitiesArrayList.get(position);
             try {
-                String forecastSummary = city.getForecast().getSummary();
-                String toastText = city.getName() + ": " + forecastSummary;
-                Toast.makeText(MainActivity.this, toastText, Toast.LENGTH_LONG).show();
+                FrameLayout frameLayout = viewHolder.itemView.findViewById(R.id.frame_layout);
+                if (frameLayout.getVisibility() == View.GONE) {
+                    frameLayout.setVisibility(View.VISIBLE);
+                    String forecastSummary = city.getForecast().getSummary();
+                    String toastText = forecastSummary;
+                    TextView description = frameLayout.findViewById(R.id.desc_text_card);
+                    description.setText(toastText);
+                } else if (frameLayout.getVisibility() == View.VISIBLE) {
+                    frameLayout.setVisibility(View.GONE);
+                }
+
             } catch (Exception e) {
                 Log.e(LOG_TAG, "forecast isn't exist for this city", e);
             }
@@ -111,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCitiesArrayList.addAll(citiesWithForecast);
         mAdapter.updateWithForecast();
         mAdapter.notifyDataSetChanged();
+        mProgressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -125,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
         if (networkInfo != null && networkInfo.isConnected()) {
+            mProgressBar.setVisibility(View.VISIBLE);
             LoaderManager loaderManager = getLoaderManager();
 
             loaderManager.initLoader(LOADER_ID, null, this);
@@ -137,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mSearchView = (SearchView)findViewById(R.id.search_view);
+        mProgressBar = (ProgressBar)findViewById(R.id.loading_indicator);
     }
 
     private void readCsvCities() {
