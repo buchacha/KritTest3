@@ -40,19 +40,17 @@ import java.util.ArrayList;
 
 //https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 // https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<City>>{
 
     private static final String LOG_TAG = MainActivity.class.getName();
 
-    private int LOADER_ID = 2;
+    private int LOADER_ID = 1;
 
     private RecyclerView mRecyclerView;
     private CityAdapter mAdapter;
     private ArrayList<City> mCitiesArrayList;
     private SearchView mSearchView;
-    private String csvLocation;
-
-    private LoaderManager loaderManager;
 
     private View.OnClickListener onItemClickListener = new View.OnClickListener() {
         @Override
@@ -61,7 +59,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             int position = viewHolder.getAdapterPosition();
             City city = mCitiesArrayList.get(position);
             try {
-                Toast.makeText(MainActivity.this, "You Clicked city with forecast: " + city.getForecast().getSummary(), Toast.LENGTH_LONG).show();
+                String forecastSummary = city.getForecast().getSummary();
+                String toastText = city.getName() + ": " + forecastSummary;
+                Toast.makeText(MainActivity.this, toastText, Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 Log.e(LOG_TAG, "forecast isn't exist for this city", e);
             }
@@ -72,8 +72,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        loaderManager = getLoaderManager();
         initView();
+        readCsvCities();
+        mAdapter = new CityAdapter(this, mCitiesArrayList);
+        mAdapter.setItemClickListener(onItemClickListener);
+        mRecyclerView.setAdapter(mAdapter);
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -87,20 +91,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
+        startLoading();
 
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
-
-            LoaderManager loaderManager = this.loaderManager;
-
-            loaderManager.initLoader(LOADER_ID, null, this);
-        }
-
-        getSupportActionBar().setTitle("My recycler with cards");
+        getSupportActionBar().setTitle("Прогноз погоды");
     }
+
+//    Loader callback override methods
 
     @Override
     public Loader<ArrayList<City>> onCreateLoader(int id, Bundle args) {
@@ -115,26 +111,36 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCitiesArrayList.addAll(citiesWithForecast);
         mAdapter.updateWithForecast();
         mAdapter.notifyDataSetChanged();
-
     }
 
     @Override
     public void onLoaderReset(Loader<ArrayList<City>> loader) {}
 
-    private void initView() {
+//    Loader init
 
+    private void startLoading() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            LoaderManager loaderManager = getLoaderManager();
+
+            loaderManager.initLoader(LOADER_ID, null, this);
+        }
+    }
+
+//    Init procedures
+
+    private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mCitiesArrayList = new ArrayList<>();
-        readCsvCities();
-        mAdapter = new CityAdapter(this, mCitiesArrayList, loaderManager);
-
-        mAdapter.setItemClickListener(onItemClickListener);
-        mRecyclerView.setAdapter(mAdapter);
         mSearchView = (SearchView)findViewById(R.id.search_view);
     }
 
     private void readCsvCities() {
+        mCitiesArrayList = new ArrayList<>();
         InputStream inputStream = getResources().openRawResource(R.raw.cities);
         CityCSVFile cityCsvFile = new CityCSVFile(inputStream);
         mCitiesArrayList.addAll(cityCsvFile.read());

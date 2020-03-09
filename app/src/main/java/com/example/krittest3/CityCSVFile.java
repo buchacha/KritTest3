@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class CityCSVFile {
     InputStream inputStream;
+    private final int CITIES_N = 20;
 
     public CityCSVFile(InputStream inputStream){
         this.inputStream = inputStream;
@@ -25,7 +26,7 @@ public class CityCSVFile {
             String csvLine;
             csvLine = reader.readLine();
             int n = 0;
-            while ((csvLine = reader.readLine()) != null && n < 25) {
+            while ((csvLine = reader.readLine()) != null && n < CITIES_N) {
                 String[] splitted = csvLine.split(",");
                 String lat1 = splitted[3].replace("\"", "");
                 String lat2 = splitted[4].replace("\"", "");

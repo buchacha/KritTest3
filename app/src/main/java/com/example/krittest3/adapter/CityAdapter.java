@@ -1,6 +1,5 @@
 package com.example.krittest3.adapter;
 
-import android.app.LoaderManager;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.krittest3.R;
 import com.example.krittest3.models.City;
-import com.example.krittest3.models.Forecast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -27,20 +25,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder> im
 
     private Context context;
     private ArrayList<City> cities;
-    private ArrayList<City> citiesFull;
-    private Forecast forecast;
-    private LoaderManager loaderManager;
+    private ArrayList<City> citiesSearch;
 
-    public CityAdapter(Context context, ArrayList<City> cities, LoaderManager loaderManager) {
+    public CityAdapter(Context context, ArrayList<City> cities) {
         this.context = context;
         this.cities = cities;
-        this.loaderManager = loaderManager;
-        this.citiesFull = new ArrayList<City>(cities);
-    }
-
-    public void updateWithForecast() {
-        citiesFull.clear();
-        citiesFull.addAll(cities);
+        this.citiesSearch = new ArrayList<City>(cities);
     }
 
     @Override
@@ -70,14 +60,15 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder> im
     private Filter cityFilter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
             ArrayList<City> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(citiesFull);
+                filteredList.addAll(citiesSearch);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
 
-                for (City city : citiesFull) {
+                for (City city : citiesSearch) {
                     if (city.getName().toLowerCase().startsWith(filterPattern)) {
                         filteredList.add(city);
                     }
@@ -114,12 +105,20 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder> im
         void setDetails(City city) {
             textView.setText(city.getName());
             DecimalFormat df = new DecimalFormat("#.#");
+            String temperature = "? C˚";
             try {
-                forecastTV.setText(df.format(city.getForecast().getTemperatureCel()) + " C˚");
+                temperature = df.format(city.getForecast().getTemperatureCel()) + " C˚";
             } catch (Exception e) {
                 Log.e(LOG_TAG, "", e);
+            } finally {
+                forecastTV.setText(temperature);
             }
         }
+    }
+
+    public void updateWithForecast() {
+        citiesSearch.clear();
+        citiesSearch.addAll(cities);
     }
 
     public void setItemClickListener(View.OnClickListener clickListener) {

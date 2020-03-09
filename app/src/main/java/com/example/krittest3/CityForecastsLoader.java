@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public class CityForecastsLoader extends AsyncTaskLoader<ArrayList<City>> {
 
     private String mUrl;
-    private ArrayList<City> cities;
+    private ArrayList<City> mCities;
 
     public CityForecastsLoader(@NonNull Context context, String url, ArrayList<City> cities) {
         super(context);
         mUrl = url;
-        this.cities = cities;
+        this.mCities = new ArrayList<City>(cities);
     }
 
     @Override
@@ -35,8 +35,11 @@ public class CityForecastsLoader extends AsyncTaskLoader<ArrayList<City>> {
             return null;
         }
 
+//        Perform a lot of similar http requests : time = mCities.size()*httpRequestTime;
+//        Need to find better forecast API;
+
         ArrayList<City> resultCities = new ArrayList<>();
-        for (City city : cities) {
+        for (City city : mCities) {
             Uri baseUri = Uri.parse(mUrl);
             Uri.Builder uriBuilder = baseUri.buildUpon();
 
