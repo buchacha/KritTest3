@@ -100,30 +100,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.CityHolder> im
         CityHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.text_card_view);
-            forecastTV = itemView.findViewById(R.id.forecast_card_view);
-//            imageDesc = itemView.findViewById(R.id.desc_img_card);
-//            textDesc = itemView.findViewById(R.id.desc_text_card);
             itemView.setTag(this);
             itemView.setOnClickListener(onItemClickListener);
         }
 
         void setDetails(City city) {
             textView.setText(city.getName());
-            DecimalFormat df = new DecimalFormat("#.#");
-            String temperature = "? C˚";
-            try {
-                temperature = df.format(city.getForecast().getTemperatureCel()) + " C˚";
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "", e);
-            } finally {
-                forecastTV.setText(temperature);
-            }
         }
-    }
-
-    public void updateWithForecast() {
-        citiesSearch.clear();
-        citiesSearch.addAll(cities);
     }
 
     public void setItemClickListener(View.OnClickListener clickListener) {

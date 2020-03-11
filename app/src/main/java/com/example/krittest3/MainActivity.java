@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.Loader;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -15,11 +16,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.krittest3.adapter.CityAdapter;
 import com.example.krittest3.models.City;
@@ -45,11 +44,9 @@ import java.util.ArrayList;
 //https://www.youtube.com/watch?v=sJ-Z9G0SDhc
 // https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<City>>{
+public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_TAG = MainActivity.class.getName();
-
-    private int LOADER_ID = 1;
 
     private RecyclerView mRecyclerView;
     private CityAdapter mAdapter;
@@ -62,22 +59,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         public void onClick(View view) {
             RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) view.getTag();
             int position = viewHolder.getAdapterPosition();
-            City city = mCitiesArrayList.get(position);
-            try {
-                FrameLayout frameLayout = viewHolder.itemView.findViewById(R.id.frame_layout);
-                if (frameLayout.getVisibility() == View.GONE) {
-                    frameLayout.setVisibility(View.VISIBLE);
-                    String forecastSummary = city.getForecast().getSummary();
-                    String toastText = forecastSummary;
-                    TextView description = frameLayout.findViewById(R.id.desc_text_card);
-                    description.setText(toastText);
-                } else if (frameLayout.getVisibility() == View.VISIBLE) {
-                    frameLayout.setVisibility(View.GONE);
-                }
 
-            } catch (Exception e) {
-                Log.e(LOG_TAG, "forecast isn't exist for this city", e);
-            }
+            Intent goToCityForecastActivity = new Intent(MainActivity.this, CityForecastActivity.class);
+            goToCityForecastActivity.putExtra("CITY", mCitiesArrayList.get(position));
+            startActivity(goToCityForecastActivity);
         }
     };
 
@@ -104,46 +89,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-        startLoading();
-
         getSupportActionBar().setTitle("Прогноз погоды");
-    }
-
-//    Loader callback override methods
-
-    @Override
-    public Loader<ArrayList<City>> onCreateLoader(int id, Bundle args) {
-        Uri baseUri = Uri.parse(QueryUtils.BASE_URL);
-
-        return new CityForecastsLoader(this, baseUri.toString(), mCitiesArrayList);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<City>> loader, ArrayList<City> citiesWithForecast) {
-        mCitiesArrayList.clear();
-        mCitiesArrayList.addAll(citiesWithForecast);
-        mAdapter.updateWithForecast();
-        mAdapter.notifyDataSetChanged();
-        mProgressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onLoaderReset(Loader<ArrayList<City>> loader) {}
-
-//    Loader init
-
-    private void startLoading() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-
-        if (networkInfo != null && networkInfo.isConnected()) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            LoaderManager loaderManager = getLoaderManager();
-
-            loaderManager.initLoader(LOADER_ID, null, this);
-        }
     }
 
 //    Init procedures

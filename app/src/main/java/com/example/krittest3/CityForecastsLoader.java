@@ -12,15 +12,15 @@ import com.example.krittest3.models.Forecast;
 
 import java.util.ArrayList;
 
-public class CityForecastsLoader extends AsyncTaskLoader<ArrayList<City>> {
+public class CityForecastsLoader extends AsyncTaskLoader<Forecast> {
 
     private String mUrl;
-    private ArrayList<City> mCities;
+    private City mCity;
 
-    public CityForecastsLoader(@NonNull Context context, String url, ArrayList<City> cities) {
+    public CityForecastsLoader(@NonNull Context context, String url, City city) {
         super(context);
         mUrl = url;
-        this.mCities = new ArrayList<City>(cities);
+        this.mCity = city;
     }
 
     @Override
@@ -30,25 +30,17 @@ public class CityForecastsLoader extends AsyncTaskLoader<ArrayList<City>> {
 
     @Nullable
     @Override
-    public ArrayList<City> loadInBackground() {
+    public Forecast loadInBackground() {
         if (mUrl == null) {
             return null;
         }
 
-//        Perform a lot of similar http requests : time = mCities.size()*httpRequestTime;
-//        Need to find better forecast API;
+        Uri baseUri = Uri.parse(mUrl);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        ArrayList<City> resultCities = new ArrayList<>();
-        for (City city : mCities) {
-            Uri baseUri = Uri.parse(mUrl);
-            Uri.Builder uriBuilder = baseUri.buildUpon();
+        uriBuilder.appendPath(mCity.getCoordinates());
+        Forecast forecast = QueryUtils.fetchForecastData(uriBuilder.toString());
 
-            uriBuilder.appendPath(city.getCoordinates());
-            Forecast forecast = QueryUtils.fetchForecastData(uriBuilder.toString());
-
-            City newCity = new City(city.getName(), city.getCoordinates(), forecast);
-            resultCities.add(newCity);
-        }
-        return resultCities;
+        return forecast;
     }
 }

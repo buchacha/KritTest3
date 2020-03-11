@@ -30,38 +30,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/forecast_card_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="15dp"
-            android:textColor="@android:color/black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:id="@+id/frame_layout">
-        <ImageView
-            android:id="@+id/desc_img_card"
-            android:contentDescription="cloud"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cloudly"
-            android:layout_gravity="center"/>
-        <TextView
-            android:id="@+id/desc_text_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text=""/>
-
-    </FrameLayout>
 
 </LinearLayout>
 

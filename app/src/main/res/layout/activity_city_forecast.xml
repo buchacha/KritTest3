@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CityForecastActivity">
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/loading_indicator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/name_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:text="Moscow"
+            android:layout_alignParentLeft="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+        <TextView
+            android:id="@+id/temperature_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textColor="@android:color/holo_blue_light"
+            android:textSize="18sp"
+            android:text="\? ˚C"
+            android:layout_alignParentRight="true"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relative_layout_summary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relative_layout_name"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/desc_img_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="cloud"
+            android:src="@drawable/cloudly" />
+
+        <TextView
+            android:id="@+id/desc_text_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="55dp"
+            android:layout_marginRight="55dp"
+            android:textColor="@android:color/white"
+            android:text="Summary"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textAlignment="center"
+            android:gravity="center_horizontal" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
