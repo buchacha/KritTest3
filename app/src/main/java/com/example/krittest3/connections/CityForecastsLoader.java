@@ -1,4 +1,4 @@
-package com.example.krittest3;
+package com.example.krittest3.connections;
 
 import android.content.Context;
 
@@ -7,10 +7,9 @@ import androidx.annotation.Nullable;
 import android.content.AsyncTaskLoader;
 import android.net.Uri;
 
+import com.example.krittest3.connections.QueryUtils;
 import com.example.krittest3.models.City;
 import com.example.krittest3.models.Forecast;
-
-import java.util.ArrayList;
 
 public class CityForecastsLoader extends AsyncTaskLoader<Forecast> {
 

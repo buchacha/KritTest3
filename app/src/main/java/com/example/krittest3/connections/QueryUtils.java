@@ -1,12 +1,10 @@
-package com.example.krittest3;
+package com.example.krittest3.connections;
 
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.krittest3.models.City;
 import com.example.krittest3.models.Forecast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,8 +16,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class QueryUtils {
 

@@ -26,6 +26,7 @@ import com.example.krittest3.models.City;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+//        TODO:
 //        1. На экране должен быть доступен текстовый поиск городов
 //        с отображением текущей погоды в них (можно использовать
 //        любой бесплатный сервис, например https://developer.accuweather.com/).
@@ -40,9 +41,6 @@ import java.util.ArrayList;
 //        (предпочтительно использовать локальную БД).
 //        https://developer.tech.yandex.ru/services/3 - geo coder
 //        https://darksky.net/dev/account - погода
-
-//https://www.youtube.com/watch?v=sJ-Z9G0SDhc
-// https://stackoverflow.com/questions/30398247/how-to-filter-a-recyclerview-with-a-searchview
 
 public class MainActivity extends AppCompatActivity {
 

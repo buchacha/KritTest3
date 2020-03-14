@@ -28,6 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name=".database.ForecastProvider"
+            android:authorities="com.example.krittest3.database"
+            android:exported="false"/>
     </application>
 
 </manifest>
