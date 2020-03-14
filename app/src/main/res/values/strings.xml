@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">KritTest3</string>
+    <string name="app_name">Погода</string>
     <string name="iternet_connection_loss">Если вы это видите, значит вы отключены от интернета</string>
     <string name="load_from_db">(Информация могла устареть, подключитесь к интернету)</string>
 </resources>

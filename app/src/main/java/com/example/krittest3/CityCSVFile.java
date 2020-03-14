@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class CityCSVFile {
     InputStream inputStream;
-    private final int CITIES_N = 20;
+    private final int CITIES_N = 2000;
 
     public CityCSVFile(InputStream inputStream){
         this.inputStream = inputStream;

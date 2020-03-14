@@ -11,12 +11,12 @@ import com.example.krittest3.connections.QueryUtils;
 import com.example.krittest3.models.City;
 import com.example.krittest3.models.Forecast;
 
-public class CityForecastsLoader extends AsyncTaskLoader<Forecast> {
+public class CityForecastLoader extends AsyncTaskLoader<Forecast> {
 
     private String mUrl;
     private City mCity;
 
-    public CityForecastsLoader(@NonNull Context context, String url, City city) {
+    public CityForecastLoader(@NonNull Context context, String url, City city) {
         super(context);
         mUrl = url;
         this.mCity = city;

@@ -7,14 +7,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/forecast"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/forecast"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CityForecastActivity">
-            android:parentActivityName=".MainActivity" >
-            <!-- Parent activity meta-data to support 4.0 and lower -->
+        <activity android:name=".CityForecastActivity"
+
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"

@@ -3,7 +3,6 @@ package com.example.krittest3;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.LoaderManager;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
@@ -20,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.krittest3.connections.CityForecastsLoader;
+import com.example.krittest3.connections.CityForecastLoader;
 import com.example.krittest3.connections.QueryUtils;
 import com.example.krittest3.database.ForecastContract.ForecastEntry;
 import com.example.krittest3.models.City;
@@ -116,7 +115,7 @@ public class CityForecastActivity extends AppCompatActivity implements LoaderMan
     public Loader<Forecast> onCreateLoader(int id, Bundle args) {
         Uri baseUri = Uri.parse(QueryUtils.BASE_URL);
 
-        return new CityForecastsLoader(this, baseUri.toString(), mCity);
+        return new CityForecastLoader(this, baseUri.toString(), mCity);
     }
 
     @Override
